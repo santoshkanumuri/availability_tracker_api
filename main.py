@@ -8,6 +8,7 @@ app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 
 # MongoDB Atlas connection
+os.environ['MONGO_URL'] = "mongodb+srv://santoshkanumuri:santoshkanumuri@santosh.bfsq33m.mongodb.net/"
 
 client = MongoClient(os.environ['MONGO_URL'])
 db = client['extension']  # Replace with your database name
@@ -37,6 +38,7 @@ def store_data():
 
 @app.route('/get_data', methods=['GET'])
 def get_data():
+
     data = list(collection.find({}, {'_id': 0}))
     data = time_difference(data)
     return jsonify(data), 200
