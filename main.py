@@ -59,6 +59,15 @@ def get_crn_data(crn):
     except Exception as e:
         return jsonify({"status": "error", "message": "CRN not found"}), 404
 
+@app.route('/course_num=<course_num>', methods=['GET'])
+def get_course_data(course_num):
+    try:
+        data = list(collection.find({"course_num": course_num}, {'_id': 0}))
+        data = time_difference(data)
+        return jsonify(data), 200
+    except Exception as e:
+        return jsonify({"status": "error", "message": "Course not found"}), 404
+
 @app.errorhandler(404)
 def page_not_found(e):
     return jsonify({"status": "error", "message": "Page not found"}), 404
