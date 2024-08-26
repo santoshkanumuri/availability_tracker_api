@@ -8,6 +8,7 @@ app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 
 # MongoDB Atlas connection
+
 client = MongoClient(os.environ['MONGO_URL'])
 db = client['extension']  # Replace with your database name
 collection = db['class_data']  # Replace with your collection name
@@ -52,7 +53,7 @@ def get_department_data(department):
 @app.route('/crn=<crn>', methods=['GET'])
 def get_crn_data(crn):
     try:
-        data = list(collection.find({"crn": int(crn)}, {'_id': 0}))[0]
+        data = list(collection.find({"crn": crn}, {'_id': 0}))[0]
         data = time_difference([data])
         return jsonify(data), 200
     except Exception as e:
