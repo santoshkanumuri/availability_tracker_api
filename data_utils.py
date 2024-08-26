@@ -1,5 +1,6 @@
 import re
 from datetime import datetime
+import pytz
 
 
 def seats_scraper(data):
@@ -19,14 +20,16 @@ def seats_scraper(data):
   return data
 
 def updated_time(data):
+  zone=pytz.timezone('US/Central')
   for course in data:
-      course['time_updated'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+      course['time_updated'] = datetime.now(zone).strftime("%Y-%m-%d %H:%M:%S")
   return data
 
 def time_difference(data):
+  zone=pytz.timezone('US/Central')
   for course in data:
       time_updated = datetime.strptime(course['time_updated'], "%Y-%m-%d %H:%M:%S")
-      time_difference = datetime.now() - time_updated
+      time_difference = datetime.now(zone) - time_updated
       if(time_difference.total_seconds() > 60):
           minutes = int(time_difference.total_seconds()/60)
           if(minutes > 60):
