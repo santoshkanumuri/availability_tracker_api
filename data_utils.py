@@ -55,5 +55,4 @@ def time_difference(data):
 def clean_dept_name(data):
   for course in data:
       course['department'] = course['department'].replace(" ", "_").lower()
-      course['name'] = course['name'].replace(" ", "_").lower()
   return data
